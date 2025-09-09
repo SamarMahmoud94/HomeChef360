@@ -11,6 +11,8 @@ class Pantry extends Model
 
     protected $table = 'pantry';
 
+    public $timestamps = false;
+    
     protected $fillable = [
         'user_id',
         'ingredient_id',
