@@ -5,6 +5,7 @@ use App\Http\Controllers\User\SignUpController;
 use App\Http\Controllers\User\LoginController;
 use App\Http\Controllers\User\LogoutController;
 use App\Http\Controllers\User\ChangePasswordController;
+use App\Http\Controllers\User\UpdateProfileController;
 use App\Http\Controllers\IngredientsController;
 use App\Models\Ingredients;
 
@@ -19,6 +20,9 @@ Route::post('user/logout',[LogoutController::class,'logout'])->middleware('auth:
 
 //change password
 Route::post('/user/password/change',[ChangePasswordController::class,'changePassword'])->middleware('auth:api');
+
+//update profile(name/email)
+Route::post('/user/update',[UpdateProfileController::class,'updateProfile'])->middleware('auth:api');
 
 //CRUD Ingredients
 Route::middleware('auth:api')->group(function () {
