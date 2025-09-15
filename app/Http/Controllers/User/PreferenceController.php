@@ -15,7 +15,7 @@ class PreferenceController extends Controller
         $preferences = UserPreference::updateOrCreate(
             ['user_id' => $user->id],
             [
-                'dietaryType' => $request->input('dietaryType'),
+                'dietary_type' => $request->input('dietary_type'),
                 'allergies' => $request->input('allergies', []),
                 'dislikes' => $request->input('dislikes', []),
                 'servings' => $request->input('servings'),

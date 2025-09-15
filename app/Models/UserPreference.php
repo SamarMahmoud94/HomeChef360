@@ -13,7 +13,7 @@ class UserPreference extends Model
 
     protected $fillable = [
         'user_id',
-        'dietaryType',
+        'dietary_type',
         'allergies',
         'dislikes',
         'servings',
