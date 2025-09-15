@@ -7,10 +7,13 @@ use App\Http\Controllers\User\LogoutController;
 use App\Http\Controllers\User\ChangePasswordController;
 use App\Http\Controllers\User\UpdateProfileController;
 use App\Http\Controllers\IngredientsController;
-use App\Models\Ingredients;
+use App\Http\Controllers\User\PreferenceController;
 
 //SignUp API
 Route::post('user/signup',[SignUpController::class,'register']);
+
+//savePreferences
+Route::post('user/{id}/preferences',[PreferenceController::class,'savePreferences']);
 
 //Login API
 Route::post('user/login',[LoginController::class,'login']);
@@ -23,6 +26,7 @@ Route::post('/user/password/change',[ChangePasswordController::class,'changePass
 
 //update profile(name/email)
 Route::post('/user/update',[UpdateProfileController::class,'updateProfile'])->middleware('auth:api');
+
 
 //CRUD Ingredients
 Route::middleware('auth:api')->group(function () {

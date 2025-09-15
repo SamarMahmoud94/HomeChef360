@@ -21,6 +21,7 @@ class User extends Authenticatable implements JWTSubject
         'email',
         'password',
         'role',
+        'onboardingComplete',
     ];
 
 
@@ -55,4 +56,10 @@ class User extends Authenticatable implements JWTSubject
     {
         return $this->hasOne(Pantry::class, 'user_id');
     }
+
+    public function preferences()
+    {
+        return $this->hasOne(UserPreference::class, 'user_id');
+    }
+
 }
