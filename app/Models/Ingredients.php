@@ -17,6 +17,7 @@ class Ingredients extends Model{
         'quantity',
         'unit',
         'expiry_date',
+        'category',
     ];
 
     //Relations

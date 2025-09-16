@@ -50,6 +50,11 @@ class IngredientsController extends Controller
                 'date',
                 'after:today',
             ], 
+            'category' => 
+            [
+                'required', 
+                'in:Vegetables,Fruits,Meat & Poultry,Seafood,Dairy & Eggs,Grains & Cereals,Spices & Herbs,Condiments & Sauces,Baking & Desserts,Beverages,Frozen Foods,Canned & Preserved,Nuts & Seeds,Oils & Fats,Other'
+            ], 
         ],
         [
             'name.required'     => 'Ingredient name must not be blank',
@@ -59,6 +64,8 @@ class IngredientsController extends Controller
             'quantity.gt'       => 'Quantity must be greater than 0',
             'unit.required'     => 'Unit must not be blank',
             'expiry_date.after' => 'Expiry date must be a future date',
+            'category.required' => 'Category must not be blank',
+            'category.in'           => 'Role must be one of:[Vegetables,Fruits,Meat & Poultry,Seafood,Dairy & Eggs,Grains & Cereals,Spices & Herbs,Condiments & Sauces,Baking & Desserts,Beverages,Frozen Foods,Canned & Preserved,Nuts & Seeds,Oils & Fats]',
         ]);
 
         $ingredient = Ingredients::create([
@@ -66,7 +73,7 @@ class IngredientsController extends Controller
             'quantity'    => $request->quantity,
             'unit'        =>$request->unit,
             'expiry_date' => $request->expiry_date,
-
+            'category'    => $request->category,
         ]);
 
         Pantry::create([
@@ -95,10 +102,11 @@ class IngredientsController extends Controller
             'quantity'    => ['sometimes','required','numeric','gt:0'],
             'unit'        => ['sometimes','required','string'],
             'expiry_date' => ['sometimes','required','date','after:today'],
+            'category'    => ['sometimes','required','in:Vegetables,Fruits,Meat & Poultry,Seafood,Dairy & Eggs,Grains & Cereals,Spices & Herbs,Condiments & Sauces,Baking & Desserts,Beverages,Frozen Foods,Canned & Preserved,Nuts & Seeds,Oils & Fats,Other'], 
         ]);
          
 
-        $ingredient->update($request->only(['name','quantity','unit','expiry_date']));
+        $ingredient->update($request->only(['name','quantity','unit','expiry_date','category']));
 
         return response()->json([
             'message' => 'Ingredient updated successfully',
@@ -122,5 +130,21 @@ class IngredientsController extends Controller
         return response()->json([
             'message' => 'Ingredient deleted successfully'
         ], 200);
+    }
+
+    //Search ingredients by name (for the logged-in user)
+    public function search(Request $request){
+        $user = JWTAuth::parseToken()->authenticate();
+
+        $query = $request->input('q');
+
+        $ingredients = Pantry::with('ingredient')
+            ->where('user_id',$user->id)
+            ->whereHas('ingredient', function($q) use ($query){
+                $q->where('name','LIKE',"%{$query}%");
+            })
+            ->get()
+            ->pluck('ingredient');
+            return response()->json($ingredients,200);
     }
 }

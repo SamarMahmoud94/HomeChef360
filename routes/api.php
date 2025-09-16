@@ -34,5 +34,8 @@ Route::middleware('auth:api')->group(function () {
     Route::post('/AddIngredient',[IngredientsController::class,'store']);
     Route::put('/UpdateIngredient/{id}',[IngredientsController::class,'update']);
     Route::delete('/deleteIngredient/{id}',[IngredientsController::class,'destroy']);
+    Route::get('ingredients/search',[IngredientsController::class,'search']);
 });
+
+
 
