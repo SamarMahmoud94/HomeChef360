@@ -5,6 +5,7 @@ namespace App\Http\Controllers\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\UserSetting;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
 class SignUpController extends Controller
@@ -56,6 +57,10 @@ class SignUpController extends Controller
             'email'    =>$request->email,
             'password' => bcrypt($request->password),
             'role'     =>$request->role??'user',
+        ]);
+
+        UserSetting::create([
+            'user_id' => $user->id,
         ]);
 
         $token = JWTAuth::fromUser($user);
