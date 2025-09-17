@@ -8,12 +8,17 @@ use App\Http\Controllers\User\ChangePasswordController;
 use App\Http\Controllers\User\UpdateProfileController;
 use App\Http\Controllers\IngredientsController;
 use App\Http\Controllers\User\PreferenceController;
+use App\Http\Controllers\User\UserSettingController;
 
 //SignUp API
 Route::post('user/signup',[SignUpController::class,'register']);
 
-//savePreferences
-Route::post('user/{id}/preferences',[PreferenceController::class,'savePreferences']);
+// Preferences APIs
+Route::middleware('auth:api')->group(function () {
+    Route::post('user/savePreferences', [PreferenceController::class, 'savePreferences']);
+    Route::get('user/getPreferences', [PreferenceController::class, 'getPreferences']);
+    Route::put('user/updatePreferences', [PreferenceController::class, 'updatePreferences']);
+});
 
 //Login API
 Route::post('user/login',[LoginController::class,'login']);
@@ -22,11 +27,15 @@ Route::post('user/login',[LoginController::class,'login']);
 Route::post('user/logout',[LogoutController::class,'logout'])->middleware('auth:api');
 
 //change password
-Route::post('/user/password/change',[ChangePasswordController::class,'changePassword'])->middleware('auth:api');
+Route::put('/user/password/change',[ChangePasswordController::class,'changePassword'])->middleware('auth:api');
 
 //update profile(name/email)
-Route::post('/user/update',[UpdateProfileController::class,'updateProfile'])->middleware('auth:api');
+Route::put('/user/update',[UpdateProfileController::class,'updateProfile'])->middleware('auth:api');
 
+Route::middleware('auth:api')->group(function () {
+    Route::get('user/getSettings', [UserSettingController::class, 'getSettings']);
+    Route::put('user/updateSettings', [UserSettingController::class, 'updateSettings']);
+});
 
 //CRUD Ingredients
 Route::middleware('auth:api')->group(function () {

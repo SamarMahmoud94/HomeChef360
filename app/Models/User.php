@@ -22,6 +22,9 @@ class User extends Authenticatable implements JWTSubject
         'password',
         'role',
         'onboardingComplete',
+        'is_active',
+        'email_verified_at',
+        'profile_image_url',
     ];
 
 
@@ -62,4 +65,7 @@ class User extends Authenticatable implements JWTSubject
         return $this->hasOne(UserPreference::class, 'user_id');
     }
 
+    public function settings(){
+        return $this->hasOne(UserSetting::class,'user_id');
+    }
 }

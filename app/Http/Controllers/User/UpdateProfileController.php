@@ -14,7 +14,7 @@ class UpdateProfileController extends Controller
 
         $request->validate([
             'name'        => ['sometimes','required','regex:/^[a-zA-Z\s]+$/u','max:255'],
-            'email'    => ['sometimes','required','email','unique:user,email'],
+            'email'    => ['sometimes','required','email','unique:user,email,' . $user->id],
         ],[
 
             'name.regex'     => 'Full Name must not contain special characters',
