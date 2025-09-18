@@ -7,6 +7,7 @@ use App\Http\Controllers\User\LogoutController;
 use App\Http\Controllers\User\ChangePasswordController;
 use App\Http\Controllers\User\UpdateProfileController;
 use App\Http\Controllers\IngredientsController;
+use App\Http\Controllers\PantryController;
 use App\Http\Controllers\User\PreferenceController;
 use App\Http\Controllers\User\UserSettingController;
 
@@ -40,11 +41,19 @@ Route::middleware('auth:api')->group(function () {
 //CRUD Ingredients
 Route::middleware('auth:api')->group(function () {
     Route::get('/AllIngredients',[IngredientsController::class,'index']);
+    Route::get('ingredients/{id}',[IngredientsController::class,'show']);
     Route::post('/AddIngredient',[IngredientsController::class,'store']);
     Route::put('/UpdateIngredient/{id}',[IngredientsController::class,'update']);
     Route::delete('/deleteIngredient/{id}',[IngredientsController::class,'destroy']);
     Route::get('ingredients/search',[IngredientsController::class,'search']);
 });
 
-
+// CRUD Pantry
+Route::middleware('auth:api')->group(function(){
+    Route::get('/pantry',[PantryController::class,'index']);
+    Route::post('/pantry',[PantryController::class,'store']);
+    Route::put('/pantry/{id}',[PantryController::class,'update']);
+    Route::delete('/pantry/{id}',[PantryController::class,'destroy']);
+    Route::get('/pantry/search',[PantryController::class,'search']);
+});
 

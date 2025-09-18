@@ -57,7 +57,7 @@ class User extends Authenticatable implements JWTSubject
 
     public function pantry()
     {
-        return $this->hasOne(Pantry::class, 'user_id');
+        return $this->hasMany(Pantry::class, 'user_id');
     }
 
     public function preferences()

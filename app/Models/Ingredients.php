@@ -10,13 +10,19 @@ class Ingredients extends Model{
 
     protected $table = 'ingredients';
     
-    public $timestamps = false;
 
     protected $fillable = [
         'name',
-        'quantity',
         'unit',
-        'expiry_date',
+        'calories_per_unit',
+        'protein_per_unit',
+        'carbs_per_unit',
+        'fat_per_unit',
+        'fiber_per_unit',
+        'sugar_per_unit',
+        'sodium_per_unit',
+        'image_url',
+        'description',
         'category',
     ];
 
