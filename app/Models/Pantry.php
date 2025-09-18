@@ -9,13 +9,17 @@ class Pantry extends Model
 {
     use HasFactory;
 
-    protected $table = 'pantry';
+    protected $table = 'user_pantry';
 
-    public $timestamps = false;
     
     protected $fillable = [
         'user_id',
         'ingredient_id',
+        'quantity',
+        'unit',
+        'category',
+        'expiry_date',
+        'notes',
     ];
 
     //relations
