@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\RecipeIngredients;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
-class RecipeIngredientCpntroller extends Controller
+class RecipeIngredientController extends Controller
 {
     // Create recipe ingredient (admin only)
     public function store(Request $request)
