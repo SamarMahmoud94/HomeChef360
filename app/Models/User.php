@@ -49,12 +49,6 @@ class User extends Authenticatable implements JWTSubject
 
 
     //relations
-
-    public function recipes()
-    {
-        return $this->hasMany(Recipes::class, 'created_by');
-    }
-
     public function pantry()
     {
         return $this->hasMany(Pantry::class, 'user_id');
@@ -67,5 +61,15 @@ class User extends Authenticatable implements JWTSubject
 
     public function settings(){
         return $this->hasOne(UserSetting::class,'user_id');
+    }
+
+    public function reviews()
+    {
+        return $this->hasMany(RecipeReview::class, 'user_id');
+    }
+
+    public function favorites()
+    {
+        return $this->hasMany(UserFavorite::class, 'user_id');
     }
 }

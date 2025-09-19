@@ -29,9 +29,12 @@ class IngredientsController extends Controller
     //Add ingredient 
     public function store(Request $request){
         $user = JWTAuth::parseToken()->authenticate();
+        if($user->role !== 'admin'){
+            return response()->json(['error'=>'Only admin can add ingredients'],403);
+        }
 
         $request->validate([
-            'name'              => 'required|string|max:255',
+            'name'              => 'required|string|max:255|unique:ingredients,name',
             'unit'              => 'nullable|string|max:50',
             'calories_per_unit' => 'nullable|numeric',
             'protein_per_unit'  => 'nullable|numeric',
@@ -71,10 +74,14 @@ class IngredientsController extends Controller
     public function update(Request $request ,$id){
         $user = JWTAuth::parseToken()->authenticate();
 
+        if($user->role !== 'admin'){
+            return response()->json(['error'=>'Only admin can update ingredients'],403);
+        }
+
         $ingredient = Ingredients::findOrFail($id);
 
         $request->validate([
-            'name'              => 'sometimes|required|string|max:255',
+            'name'              => 'sometimes|required|string|max:255|unique:ingredients,name,'.$ingredient->id,
             'unit'              => 'sometimes|nullable|string|max:50',
             'calories_per_unit' => 'sometimes|nullable|numeric',
             'protein_per_unit'  => 'sometimes|nullable|numeric',
@@ -113,7 +120,10 @@ class IngredientsController extends Controller
     //Delete ingredient (removes from pantry automatically)
     public function destroy($id){
         $user = JWTAuth::parseToken()->authenticate();
-
+        if($user->role !== 'admin'){
+            return response()->json(['error'=>'Only admin can delete ingredients'],403);
+        }
+        
         $ingredient = Ingredients::findOrFail($id);
         $ingredient->delete();
 

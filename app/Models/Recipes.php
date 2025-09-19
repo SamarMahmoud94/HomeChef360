@@ -11,21 +11,36 @@ class Recipes extends Model{
     protected $table='recipes';
 
     protected $fillable = [
-       'Title',
-       'description',
-       'cuisine_origin',
-       'preparation_time',
-       'status',
-       'created_by',
+        'name',
+        'description',
+        'cuisine',
+        'category',
+        'difficulty',
+        'prep_time',
+        'cook_time',
+        'servings',
+        'calories_per_serving',
+        'protein_per_serving',
+        'carbs_per_serving',
+        'fat_per_serving',
+        'image_url',
+        'video_url',
+        'rating',
+        'review_count',
+        'view_count',
     ];
 
     //Relations
 
-    public function user(){
-        return $this->belongsTo(User::class,'created_by');
+    public function ingredients(){
+        return $this->hasMany(RecipeIngredients::class,'recipe_id');
     }
 
-    public function recipeIngredients(){
-        return $this->hasMany(RecipeIngredients::class,'recipe_id');
+    public function reviews(){
+        return $this->hasMany(RecipeReview::class,'recipe_id');
+    }
+
+    public function favorites(){
+        return $this->hasMany(UserFavorite::class,'recipe_id');
     }
 }
