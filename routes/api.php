@@ -8,8 +8,13 @@ use App\Http\Controllers\User\ChangePasswordController;
 use App\Http\Controllers\User\UpdateProfileController;
 use App\Http\Controllers\IngredientsController;
 use App\Http\Controllers\PantryController;
+use App\Http\Controllers\Recipe\RecipeController;
+use App\Http\Controllers\Recipe\RecipeIngredientCpntroller;
+use App\Http\Controllers\Recipe\RecipeReviewController;
+use App\Http\Controllers\Recipe\UserFavoriteController;
 use App\Http\Controllers\User\PreferenceController;
 use App\Http\Controllers\User\UserSettingController;
+use App\Models\RecipeReview;
 
 //SignUp API
 Route::post('user/signup',[SignUpController::class,'register']);
@@ -59,3 +64,34 @@ Route::middleware('auth:api')->group(function(){
     
 });
 
+//Recipe
+Route::middleware('auth:api')->group(function(){
+    Route::get('/recipes',[RecipeController::class,'index']);
+    Route::get('/recipes/search',[RecipeController::class,'search']);
+    Route::get('/recipes/{id}',[RecipeController::class,'show']);
+    Route::post('/recipes',[RecipeController::class,'store']);
+    Route::put('/recipes/{id}',[RecipeController::class,'update']);
+    Route::delete('/recipes/{id}',[RecipeController::class,'destroy']);
+    Route::get('/recipes/categories',[RecipeController::class,'getCategories']);
+    Route::get('/recipes/cuisines',[RecipeController::class,'getCuisines']);
+});
+
+//Recipe Ingredients
+Route::middleware('auth:api')->group(function(){
+    Route::post('/recipe-ingredients',[RecipeIngredientCpntroller::class,'store']);
+    Route::put('/recipe-ingredients/{id}',[RecipeIngredientCpntroller::class,'update']);
+    Route::delete('/recipe-ingredients/{id}',[RecipeIngredientCpntroller::class,'destroy']);
+});
+
+//favorites 
+Route::middleware('auth:api')->group(function(){
+    Route::get('/favorites',[UserFavoriteController::class,'index']);
+    Route::post('/favorites',[UserFavoriteController::class,'store']);
+    Route::delete('/favorites/{id}',[UserFavoriteController::class,'destroy']);
+});
+
+//recipe reviews 
+Route::middleware('auth:api')->group(function(){
+    Route::get('/recipes/{recipeId}/reviews',[RecipeReviewController::class,'index']);
+    Route::post('/recipes/{recipeId}/reviews',[RecipeReviewController::class,'store']);
+});
