@@ -72,4 +72,8 @@ class User extends Authenticatable implements JWTSubject
     {
         return $this->hasMany(UserFavorite::class, 'user_id');
     }
+
+    public function nutritiontracking(){
+        return $this->hasMany(NutritionTracking::class,'user_id');
+    }
 }
