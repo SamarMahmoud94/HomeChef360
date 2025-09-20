@@ -14,7 +14,7 @@ class RecipeController extends Controller
 
         $user = JWTAuth::parseToken()->authenticate();
 
-        $recipes = Recipes::with('ingredients')->get();
+        $recipes = Recipes::with('ingredients', 'videos', 'steps')->get();
 
         return response()->json($recipes);
     }
@@ -23,7 +23,7 @@ class RecipeController extends Controller
     public function show($id){
         $user = JWTAuth::parseToken()->authenticate();
 
-        $recipe = Recipes::with('ingredients')->findOrFail($id);
+        $recipe = Recipes::with('ingredients', 'videos', 'steps')->findOrFail($id);
         
         return response()->json($recipe);
     }
@@ -152,7 +152,7 @@ class RecipeController extends Controller
 
         $query = $request->input('q');
         
-        $recipe = Recipes::with('ingredients')
+        $recipe = Recipes::with('ingredients', 'videos', 'steps')
             ->where('name', 'LIKE', "%{$query}%")
             ->get();
         

@@ -43,4 +43,11 @@ class Recipes extends Model{
     public function favorites(){
         return $this->hasMany(UserFavorite::class,'recipe_id');
     }
+
+    public function videos(){
+        return $this->hasMany(RecipeVideo::class,'recipe_id');
+    }
+    public function steps(){
+        return $this->hasMany(RecipeStep::class,'recipe_id');
+    }
 }

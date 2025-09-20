@@ -11,9 +11,13 @@ use App\Http\Controllers\PantryController;
 use App\Http\Controllers\Recipe\RecipeController;
 use App\Http\Controllers\Recipe\RecipeIngredientController;
 use App\Http\Controllers\Recipe\RecipeReviewController;
+use App\Http\Controllers\Recipe\RecipeStepController;
+use App\Http\Controllers\Recipe\RecipeVideoController;
 use App\Http\Controllers\Recipe\UserFavoriteController;
+use App\Http\Controllers\TutorialController;
 use App\Http\Controllers\User\PreferenceController;
 use App\Http\Controllers\User\UserSettingController;
+
 
 //SignUp API
 Route::post('user/signup',[SignUpController::class,'register']);
@@ -93,4 +97,30 @@ Route::middleware('auth:api')->group(function(){
 Route::middleware('auth:api')->group(function(){
     Route::get('/recipes/{recipeId}/reviews',[RecipeReviewController::class,'index']);
     Route::post('/recipes/{recipeId}/reviews',[RecipeReviewController::class,'store']);
+});
+
+//tutorial
+Route::middleware('auth:api')->group(function(){
+    Route::get('/tutorials',[TutorialController::class,'index']);
+    Route::get('/tutorials/search',[TutorialController::class,'search']);
+    Route::get('/tutorials/{id}',[TutorialController::class,'show']);
+    Route::post('/tutorials',[TutorialController::class,'store']);
+    Route::put('/tutorials/{id}',[TutorialController::class,'update']);
+    Route::delete('/tutorials/{id}',[TutorialController::class,'destroy']);
+});
+
+// recipe videos
+Route::middleware('auth:api')->group(function(){
+    Route::get('/recipe-videos', [RecipeVideoController::class, 'index']);
+    Route::get('/recipe-videos/{id}', [RecipeVideoController::class, 'show']);
+    Route::post('/recipe-videos', [RecipeVideoController::class, 'store']);
+    Route::put('/recipe-videos/{id}', [RecipeVideoController::class, 'update']);
+    Route::delete('/recipe-videos/{id}', [RecipeVideoController::class, 'destroy']);
+});
+
+// recipe steps
+Route::middleware('auth:api')->group(function () {
+    Route::post('/recipe-steps', [RecipeStepController::class, 'store']);
+    Route::put('/recipe-steps/{id}', [RecipeStepController::class, 'update']);
+    Route::delete('/recipe-steps/{id}', [RecipeStepController::class, 'destroy']);
 });
