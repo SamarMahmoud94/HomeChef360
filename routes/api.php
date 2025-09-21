@@ -15,6 +15,7 @@ use App\Http\Controllers\Recipe\RecipeStepController;
 use App\Http\Controllers\Recipe\RecipeVideoController;
 use App\Http\Controllers\Recipe\UserFavoriteController;
 use App\Http\Controllers\TutorialController;
+use App\Http\Controllers\User\NutritionTrackingController;
 use App\Http\Controllers\User\PreferenceController;
 use App\Http\Controllers\User\UserSettingController;
 
@@ -123,4 +124,13 @@ Route::middleware('auth:api')->group(function () {
     Route::post('/recipe-steps', [RecipeStepController::class, 'store']);
     Route::put('/recipe-steps/{id}', [RecipeStepController::class, 'update']);
     Route::delete('/recipe-steps/{id}', [RecipeStepController::class, 'destroy']);
+});
+
+//nutrition tracking
+Route::middleware('auth:api')->group(function () {
+    Route::post('/nutrition', [NutritionTrackingController::class, 'store']);         // Log daily nutrition
+    Route::get('/nutrition', [NutritionTrackingController::class, 'show']);           // Get daily nutrition (by date param)
+    Route::put('/nutrition/{id}', [NutritionTrackingController::class, 'update']);    // Update daily nutrition
+    Route::get('/nutrition/weekly', [NutritionTrackingController::class, 'weekly']);  // Get weekly nutrition
+    Route::get('/nutrition/monthly', [NutritionTrackingController::class, 'monthly']); // Get monthly nutrition
 });
