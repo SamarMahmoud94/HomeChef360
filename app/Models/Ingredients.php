@@ -35,4 +35,9 @@ class Ingredients extends Model{
     public function pantry(){
         return $this->hasMany(Pantry::class,'ingredient_id');
     }
+    public function shoppingList()
+    {
+        return $this->hasMany(ShoppingList::class, 'ingredient_id');
+    }
+
 }
