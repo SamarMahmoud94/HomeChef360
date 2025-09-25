@@ -14,6 +14,7 @@ use App\Http\Controllers\Recipe\RecipeReviewController;
 use App\Http\Controllers\Recipe\RecipeStepController;
 use App\Http\Controllers\Recipe\RecipeVideoController;
 use App\Http\Controllers\Recipe\UserFavoriteController;
+use App\Http\Controllers\ShoppingListController;
 use App\Http\Controllers\TutorialController;
 use App\Http\Controllers\User\NutritionTrackingController;
 use App\Http\Controllers\User\PreferenceController;
@@ -133,4 +134,12 @@ Route::middleware('auth:api')->group(function () {
     Route::put('/nutrition/{id}', [NutritionTrackingController::class, 'update']);    // Update daily nutrition
     Route::get('/nutrition/weekly', [NutritionTrackingController::class, 'weekly']);  // Get weekly nutrition
     Route::get('/nutrition/monthly', [NutritionTrackingController::class, 'monthly']); // Get monthly nutrition
+});
+
+Route::middleware('auth:api')->group(function () {
+    Route::get('/shopping-list', [ShoppingListController::class, 'index']); // Get all shopping list items for user
+    Route::post('/shopping-list', [ShoppingListController::class, 'store']); // Add new item
+    Route::put('/shopping-list/{id}', [ShoppingListController::class, 'update']); // Update (status, quantity, unit.)
+    Route::delete('/shopping-list/{id}', [ShoppingListController::class, 'destroy']); // Delete item
+    Route::post('/shopping-list/add-missing/{recipeId}', [ShoppingListController::class, 'addMissingFromRecipe']); // Add missing from recipe
 });

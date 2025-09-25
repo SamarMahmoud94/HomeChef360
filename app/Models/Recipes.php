@@ -50,4 +50,9 @@ class Recipes extends Model{
     public function steps(){
         return $this->hasMany(RecipeStep::class,'recipe_id');
     }
+    public function shoppingList()
+    {
+        return $this->hasMany(ShoppingList::class, 'recipe_id');
+    }
+
 }
