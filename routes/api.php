@@ -7,6 +7,7 @@ use App\Http\Controllers\User\LogoutController;
 use App\Http\Controllers\User\ChangePasswordController;
 use App\Http\Controllers\User\UpdateProfileController;
 use App\Http\Controllers\IngredientsController;
+use App\Http\Controllers\MealPlanController;
 use App\Http\Controllers\PantryController;
 use App\Http\Controllers\Recipe\RecipeController;
 use App\Http\Controllers\Recipe\RecipeIngredientController;
@@ -135,11 +136,19 @@ Route::middleware('auth:api')->group(function () {
     Route::get('/nutrition/weekly', [NutritionTrackingController::class, 'weekly']);  // Get weekly nutrition
     Route::get('/nutrition/monthly', [NutritionTrackingController::class, 'monthly']); // Get monthly nutrition
 });
-
+//shopping list
 Route::middleware('auth:api')->group(function () {
     Route::get('/shopping-list', [ShoppingListController::class, 'index']); // Get all shopping list items for user
     Route::post('/shopping-list', [ShoppingListController::class, 'store']); // Add new item
     Route::put('/shopping-list/{id}', [ShoppingListController::class, 'update']); // Update (status, quantity, unit.)
     Route::delete('/shopping-list/{id}', [ShoppingListController::class, 'destroy']); // Delete item
     Route::post('/shopping-list/add-missing/{recipeId}', [ShoppingListController::class, 'addMissingFromRecipe']); // Add missing from recipe
+});
+
+//meal plans
+Route::middleware('auth:api')->group(function () {
+    Route::get('/meal-plans', [MealPlanController::class, 'index']);
+    Route::post('/meal-plans', [MealPlanController::class, 'store']);
+    Route::put('/meal-plans/{id}/meals', [MealPlanController::class, 'updateMeals']);
+    Route::delete('/meal-plans/{id}', [MealPlanController::class, 'destroy']);
 });
